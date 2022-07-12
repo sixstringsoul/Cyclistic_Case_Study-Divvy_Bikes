@@ -47,25 +47,25 @@ If the result returns 0 then there are no duplicates.
 	sum(is.na(C202204$start_lng))
 	sum(is.na(C202204$end_lng))
 #There were a quite a few nulls found in the start_station_name, end_station_name, end_lat, start_station_id, end_station_id, and end_lng columns.
-The pattern repeated across all the files.  The nulls logged in my Column Name Log excel file.
+The pattern repeated across all the files.  The nulls were logged in my Column Name Log Microsoft Excel file.
 
-#I filtered the dataframe to see if i could rebuild the nulls by the latitude and longitude coordinates.
+#I filtered the dataframe to see if I could rebuild the nulls by the latitude and longitude coordinates.
   fill_stations <- filter(C202204, end_station_id=='15648')
 #Unfortunately I was unable to find consistent enough coordinates for the individual stations so I chose to delete the rows that had nulls.
 
 #Removing the nulls
   C202204 <- filter(C202204, !is.na(C202204$start_station_name))
-	C202204 <- filter(C202204, !is.na(C202204$end_station_name))
-# I logged how many rows were removed from the original file in my Column Name Log excel file.
+  C202204 <- filter(C202204, !is.na(C202204$end_station_name))
+#I logged how many rows were removed from the original file in my Column Name Log Excel file.
 After removing the nulls from the start_station_name and end_station_name columns, I noticed nulls in the other problematic columns were removed.
-I decided to check again to ensure.
+I decided to check again to ensure they were removed.
 
 #Check for any remaining nulls
   sum(is.na(C202204$end_lat))
   sum(is.na(C202204$start_station_id))
-	sum(is.na(C202204$end_station_id))
+  sum(is.na(C202204$end_station_id))
   sum(is.na(C202204$end_lng))
- #The removing of the nulls from the start_station_name and end_station_name columns cleaned all the nulls for all the files.
+#The removing of the nulls from the start_station_name and end_station_name columns cleaned all the nulls for all the files.
  
 ##TRANSFORM PART 1##
  
@@ -92,7 +92,7 @@ When trying to calculate the ride length time I noticed the started_at and ended
 
 #I decided to remove the original started_at and ended_at columns to make the files smaller.  All the information can now be found elsewhere.
   C202204$started_at <- NULL
-	C202204$ended_at <- NULL
+  C202204$ended_at <- NULL
  
 ##TRANSFORM PART 2##
  
