@@ -3,10 +3,13 @@
 #The end goal is create individual cleaned files for each month, which I will later merge into one complete file for analysis.
 I did this by an individual file basis in order to get into deeper into the details with each file.
 
-#After creating a zip file of the all the bike logs from 04/21-04/22 I uploaded the zip file into R's project file section.
-Once all the zip file was uploaded, R studio automatically split them up individually.
+#In order to upload the files in the quickest manner possible I created a zip file of the bike logs ranging from 04/21-04/22.
+I uploaded the zip file into R's project file section.
+Once all the zip file was uploaded, R studio automatically split up the bike logs individually.
 The file names were made uniform during the previous step of my analysis.
-For this file I will be using the April 2022 bike log.
+I then created a code repository in Microsoft Word for each file to undergo.
+I edited the file for each month and then pasted the code into R Studio.
+For this file I will be using the April 2022 bike log as an example.
 
 #Install and library the necessary packages
   install.packages(tidyverse)
@@ -16,14 +19,15 @@ For this file I will be using the April 2022 bike log.
   library(dplyr)
   library(lubridate)
 
-#Upload the file into the Environment section and assign variable.  I chose to a variable that would the code quick to enter, yet readable.
+#Upload the file into the Environment section and assign variable.  I chose to a variable that would make the code quick to enter, yet readable.
   C202204 <- read.csv('202204.csv')
 
 #Checking the column names
   colnames(C202204)
-#I then logged the column names in an Excel file to ensure there will be no issues with joining the files later.  All the column names were already consistent.
+#I then logged the column names in an Excel file to ensure there will be no issues with joining the files later.  All the column names were already uniform.
 
-#Checking for duplicates.  I only inspected the ride_id column because it is the primary key.  If the result returns 0 then there are no duplicates.
+#Checking for duplicates.  I only inspected the ride_id column because it is the primary key.  Duplicates in the other columns would be permissable.  
+If the result returns 0 then there are no duplicates.
   sum(duplicated(C202204$ride_id))
 #No duplicates were found across all the files
 
@@ -110,4 +114,3 @@ When trying to calculate the ride length time I noticed the started_at and ended
   all <- bind_rows(C202104, C202105, C202106, C202107, C202108, C202109, C202110, C202111, C202112, C202201, C202202, C202203, C202204)
  #Saving the singular file for crash protection.
   write.csv(all, "all.csv")
- 
