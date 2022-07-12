@@ -1,7 +1,7 @@
 ##CLEANING PROCESS##
 
 #The end goal is create individual cleaned files for each month, which I will later merge into one complete file for analysis.
-I did this by an individual file basis in order to get into deeper into the details with each file.
+I did this by an individual month basis in order to get into deeper into the details of each file.
 
 #In order to upload the files in the quickest manner possible I created a zip file of the bike logs ranging from 04/21-04/22.
 I uploaded the zip file into R's project file section.
