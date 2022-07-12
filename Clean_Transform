@@ -1,0 +1,113 @@
+##CLEANING PROCESS##
+
+#The end goal is create individual cleaned files for each month, which I will later merge into one complete file for analysis.
+I did this by an individual file basis in order to get into deeper into the details with each file.
+
+#After creating a zip file of the all the bike logs from 04/21-04/22 I uploaded the zip file into R's project file section.
+Once all the zip file was uploaded, R studio automatically split them up individually.
+The file names were made uniform during the previous step of my analysis.
+For this file I will be using the April 2022 bike log.
+
+#Install and library the necessary packages
+  install.packages(tidyverse)
+  install.packages(dplyr)
+  install.packages(lubridate)
+  library(tidyverse)
+  library(dplyr)
+  library(lubridate)
+
+#Upload the file into the Environment section and assign variable.  I chose to a variable that would the code quick to enter, yet readable.
+  C202204 <- read.csv('202204.csv')
+
+#Checking the column names
+  colnames(C202204)
+#I then logged the column names in an Excel file to ensure there will be no issues with joining the files later.  All the column names were already consistent.
+
+#Checking for duplicates.  I only inspected the ride_id column because it is the primary key.  If the result returns 0 then there are no duplicates.
+  sum(duplicated(C202204$ride_id))
+#No duplicates were found across all the files
+
+#Checking for nulls.  If the result returned 0 there are no null entries in that particular column.
+  sum(is.na(C202204$ride_id))
+	sum(is.na(C202204$rideable_type))
+	sum(is.na(C202204$started_at))
+	sum(is.na(C202204$start_station_name))
+	sum(is.na(C202204$end_station_name))
+	sum(is.na(C202204$start_lat))
+	sum(is.na(C202204$end_lat))
+	sum(is.na(C202204$member_casual))
+	sum(is.na(C202204$rideable_type))
+	sum(is.na(C202204$ended_at))
+	sum(is.na(C202204$start_station_id))
+	sum(is.na(C202204$end_station_id))
+	sum(is.na(C202204$start_lng))
+	sum(is.na(C202204$end_lng))
+#There were a quite a few nulls found in the start_station_name, end_station_name, end_lat, start_station_id, end_station_id, and end_lng columns.
+The pattern repeated across all the files.  The nulls logged in my Column Name Log excel file.
+
+#I filtered the dataframe to see if i could rebuild the nulls by the latitude and longitude coordinates.
+  fill_stations <- filter(C202204, end_station_id=='15648')
+#Unfortunately I was unable to find consistent enough coordinates for the individual stations so I chose to delete the rows that had nulls.
+
+#Removing the nulls
+  C202204 <- filter(C202204, !is.na(C202204$start_station_name))
+	C202204 <- filter(C202204, !is.na(C202204$end_station_name))
+# I logged how many rows were removed from the original file in my Column Name Log excel file.
+After removing the nulls from the start_station_name and end_station_name columns, I noticed nulls in the other problematic columns were removed.
+I decided to check again to ensure.
+
+#Check for any remaining nulls
+  sum(is.na(C202204$end_lat))
+  sum(is.na(C202204$start_station_id))
+	sum(is.na(C202204$end_station_id))
+  sum(is.na(C202204$end_lng))
+ #The removing of the nulls from the start_station_name and end_station_name columns cleaned all the nulls for all the files.
+ 
+##TRANSFORM PART 1##
+ 
+#I needed some additional information in order to complete my analysis.  The biggest missing variable was a ride_length column.  I also needed a day of the week and month columns.
+When trying to calculate the ride length time I noticed the started_at and ended_at were string columns.  I then proceeded to transform them into a date time format.
+  C202204 <- mutate(C202204, start_time=mdy_hm(C202204$started_at)) %>% mutate(C202204, end_time=mdy_hm(C202204$ended_at))
+
+#Creating date_time column. 
+  C202204 <- mutate(C202204, ride_length=difftime(C202204$end_time, C202204$start_time, units = 'mins')) 
+  
+#Creating start_day and end_day columns. These list the day of the week for both the start and end times.
+  C202204 <- mutate(C202204, start_day=wday(C202204$start_time, label=TRUE)) %>% mutate(C202204, end_day=wday(C202204$end_time, label=TRUE)) 
+
+#Creating start_month and end_month columns. These list the month for both the start and end times.
+  C202204 <- mutate(C202204, start_month=months(C202204$start_time)) %>% mutate(C202204, end_month=months(C202204$end_time))
+  
+##CLEANING PART 2##
+
+#In order to make sure there were no missing dates that would need to be noted, I checked for continuity of the dates.
+  d <- as.Date(C202204$start_time)
+	D <- seq(min(d), max(d), by = 1)
+	Do <- D[!D %in% d] 
+#None of the files had missing dates in the start time column which will later serve as the primary time I used for my analysis.
+
+#I decided to remove the original started_at and ended_at columns to make the files smaller.  All the information can now be found elsewhere.
+  C202204$started_at <- NULL
+	C202204$ended_at <- NULL
+ 
+##TRANSFORM PART 2##
+ 
+#In order to keep the files easy to read, I reorganized the columns.
+  202204 <- C202204 %>% 
+  relocate(end_month, .after = ride_id) %>% 
+  relocate(start_month, .after = ride_id) %>% 
+  relocate(ride_length, .after = ride_id) %>% 
+  relocate(end_day, .after = ride_id) %>% 
+  relocate(end_time, .after = ride_id) %>% 
+  relocate(start_day, .after = ride_id) %>% 
+  relocate(start_time, .after = ride_id) %>% 
+  relocate(member_casual, .after = ride_id)
+
+#I then exported the cleaned and transformed files to save my work.  This is to protect the work in case the system crashes.
+  write.csv(C202204, "202204.csv")
+  
+ #Finally I merged all the files into one file for analysis.
+  all <- bind_rows(C202104, C202105, C202106, C202107, C202108, C202109, C202110, C202111, C202112, C202201, C202202, C202203, C202204)
+ #Saving the singular file for crash protection.
+  write.csv(all, "all.csv")
+ 
