@@ -3,7 +3,7 @@
 #The end goal is create individual cleaned files for each month, which I will later merge into one complete file for analysis.
 I did this by an individual month basis in order to get into deeper into the details of each file.
 
-#In order to upload the files in the quickest manner possible I created a zip file of the bike logs ranging from 04/21-04/22.
+#In order to upload the files in the quickest manner possible, I created a zip file of the bike logs ranging from 04/21-04/22.
 I uploaded the zip file into R's project file section.
 Once all the zip file was uploaded, R studio automatically split up the bike logs individually.
 The file names were made uniform during the previous step of my analysis.
@@ -12,12 +12,12 @@ I edited the file for each month and then pasted the code into R Studio.
 For this file I will be using the April 2022 bike log as an example.
 
 #Install and library the necessary packages
-  install.packages(tidyverse)
-  install.packages(dplyr)
-  install.packages(lubridate)
-  library(tidyverse)
-  library(dplyr)
-  library(lubridate)
+  install.packages('tidyverse')
+  install.packages('dplyr')
+  install.packages('lubridate')
+  library('tidyverse')
+  library('dplyr')
+  library('lubridate')
 
 #Upload the file into the Environment section and assign variable.  I chose to a variable that would make the code quick to enter, yet readable.
   C202204 <- read.csv('202204.csv')
@@ -33,19 +33,19 @@ If the result returns 0 then there are no duplicates.
 
 #Checking for nulls.  If the result returned 0 there are no null entries in that particular column.
   sum(is.na(C202204$ride_id))
-	sum(is.na(C202204$rideable_type))
-	sum(is.na(C202204$started_at))
-	sum(is.na(C202204$start_station_name))
-	sum(is.na(C202204$end_station_name))
-	sum(is.na(C202204$start_lat))
-	sum(is.na(C202204$end_lat))
-	sum(is.na(C202204$member_casual))
-	sum(is.na(C202204$rideable_type))
-	sum(is.na(C202204$ended_at))
-	sum(is.na(C202204$start_station_id))
-	sum(is.na(C202204$end_station_id))
-	sum(is.na(C202204$start_lng))
-	sum(is.na(C202204$end_lng))
+  sum(is.na(C202204$rideable_type))
+  sum(is.na(C202204$started_at))
+  sum(is.na(C202204$start_station_name))
+  sum(is.na(C202204$end_station_name))
+  sum(is.na(C202204$start_lat))
+  sum(is.na(C202204$end_lat))
+  sum(is.na(C202204$member_casual))
+  sum(is.na(C202204$rideable_type))
+  sum(is.na(C202204$ended_at))
+  sum(is.na(C202204$start_station_id))
+  sum(is.na(C202204$end_station_id))
+  sum(is.na(C202204$start_lng))
+  sum(is.na(C202204$end_lng))
 #There were a quite a few nulls found in the start_station_name, end_station_name, end_lat, start_station_id, end_station_id, and end_lng columns.
 The pattern repeated across all the files.  The nulls were logged in my Column Name Log Microsoft Excel file.
 
@@ -86,15 +86,21 @@ When trying to calculate the ride length time I noticed the started_at and ended
 
 #In order to make sure there were no missing dates that would need to be noted, I checked for continuity of the dates.
   d <- as.Date(C202204$start_time)
-	D <- seq(min(d), max(d), by = 1)
-	Do <- D[!D %in% d] 
+  D <- seq(min(d), max(d), by = 1)
+  Do <- D[!D %in% d] 
 #None of the files had missing dates in the start time column which will later serve as the primary time I used for my analysis.
 This technique was found at (https://stackoverflow.com/questions/50724137/find-missing-days-in-r-date-sequence).
 
 #I decided to remove the original started_at and ended_at columns to make the files smaller.  All the information can now be found elsewhere.
   C202204$started_at <- NULL
   C202204$ended_at <- NULL
- 
+  
+#I decided to check the range of the ride length column to check if the range made any sense.
+  summary(C202204$ride_length)
+#I found there were some negative values and some rides that were longer than 24hrs or 1440mins.  Since the negative values were obivously errors and ride longer than 1440mins were likely for service, I filtered out the rides that fell on either side of the range.
+  C202204 <- filter(C202204, ride_length > 0)
+  C202204 <- filter(C202204, ride_length <= 1440)
+
 ##TRANSFORM PART 2##
  
 #In order to keep the files easy to read, I reorganized the columns.
