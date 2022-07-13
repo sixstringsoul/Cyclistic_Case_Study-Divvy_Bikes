@@ -89,6 +89,7 @@ When trying to calculate the ride length time I noticed the started_at and ended
 	D <- seq(min(d), max(d), by = 1)
 	Do <- D[!D %in% d] 
 #None of the files had missing dates in the start time column which will later serve as the primary time I used for my analysis.
+This technique was found at (https://stackoverflow.com/questions/50724137/find-missing-days-in-r-date-sequence).
 
 #I decided to remove the original started_at and ended_at columns to make the files smaller.  All the information can now be found elsewhere.
   C202204$started_at <- NULL
