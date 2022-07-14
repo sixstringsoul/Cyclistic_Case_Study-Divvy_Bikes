@@ -1,0 +1,18 @@
+Background and Business Task
+
+A bicycle sharing company by the name of Cyclistic would like to further expand its business.  
+The company operates much like Lime where users can rent bicycles for rides at self-serve stations across Chicago.  
+There are two rider types: casual riders who use one trip or daylong passes and member riders who purchased an annual membership.  
+Cyclistic’s financial analysis team has concluded that annual members yield a higher profit margin than casual riders.  
+Lilia Moreno, Cyclistic’s Marketing Director, agrees with this conclusion.  
+It has become her goal to design a new marketing strategy that will maximize annual membership. 
+
+There are three questions that will guide the formation of this new marketing strategy: 
+1)	How do annual members and casual riders use Cyclistic bikes differently?
+2)	Why would casual riders buy Cyclistic annual memberships?
+3)	How can Cyclistic use digital media to influence casual riders to become members?
+
+In this scenario, I have been assigned the duty of analyzing the usage difference between the two rider types.  
+I have been provided access to the company’s bike logs from 2015 to the present day.  
+To keep the analysis more relevant to the current day, I will limit my analysis to the past 12 months.  
+The end goal of my analysis is to create a presentation inclusive of my findings and top 3 recommendations.
