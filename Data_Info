@@ -1,0 +1,33 @@
+Data Information
+
+The data was downloaded from a link provided by the Google Data Analytics Professional Certificate program(see “Citations” for further info).  
+I downloaded the bike logs from April 2021 to April 2022.  
+The files are divided by month.  
+I checked the files with Excel to ensure the whole month was included.  
+This remained true for all the files I downloaded. 
+To keep the names consistent and concise, I renamed the files into the following format: yyyymm.
+	
+To ensure the data is ok to use for in my analysis, I will check that the data follows the following recommended characteristics of clean data: 
+reliable, original, current, cited, and comprehensive.
+
+Upon first glance, I did not find any reliability issues.  
+Some of the station information columns contain nulls, which I will have to clean in my next step.  
+The data is consistently formatted for each column.  
+I did not observe any immediately apparent discrepancies.  
+The data can be considered reliable.
+
+Since the data was collected from Cyclisitc themselves and wasn’t sourced from a third party, we can conclude that this is original data. 
+(Note: Cyclistic is a fictional company in actuality this was collected by Divvy Bikes which is a subsidiary of Lyft.)  
+The bike logs are current down to last month’s rides.  
+We can conclude the data is current.
+
+The information is not cited other than the statement of where the data came from.  
+Since this is from its original source, that being Cyclistic’s data logs, no other citations would be needed.  
+We can consider the data cited.
+
+The data is relatively comprehensive less the missing values mentioned earlier.
+
+To keep the data secure Cyclistic has omitted any personally identifiable information of their users.  
+The data source can be considered a credible because it was collected with user permission from Cyclistic themselves.  
+Being that the data does not contain any personally identifiable information and since the nature of the data is factual rather than of an opinion, the likelihood of bias remains extremely unlikely.  
+In conclusion, the data provided will provide an accurate understanding of the characteristics of the 2 Cyclistic rider types.
