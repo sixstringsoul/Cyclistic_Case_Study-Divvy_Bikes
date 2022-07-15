@@ -3,6 +3,7 @@ Background and Business Task
 A bicycle sharing company by the name of Cyclistic would like to further expand its business.  
 The company operates much like Lime where users can rent bicycles for rides at self-serve stations across Chicago.
 Once a bike is rented from a station it is also returned to a station at the end of the trip.
+Users have the option to choose either a traditional pedal powered bike or an electric bike.
 There are two rider types: casual riders who use one trip or daylong passes and member riders who purchased an annual membership.  
 Cyclistic’s financial analysis team has concluded that annual members yield a higher profit margin than casual riders.  
 Lilia Moreno, Cyclistic’s Marketing Director, agrees with this conclusion.  
