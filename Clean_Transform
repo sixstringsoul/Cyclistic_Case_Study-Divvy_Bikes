@@ -4,11 +4,11 @@
 I did this by an individual month basis in order to get into deeper into the details of each file.
 
 #In order to upload the files in the quickest manner possible, I created a zip file of the bike logs ranging from 04/21-04/22.
-I uploaded the zip file into R's project file section.
-Once all the zip file was uploaded, R studio automatically split up the bike logs individually.
+I uploaded the zip file into R Studio's project file section.
+Once the whole zip file was uploaded, R studio automatically split up the bike logs individually.
 The file names were made uniform during the previous step of my analysis.
 I then created a code repository in Microsoft Word for each file to undergo.
-I edited the file for each month and then pasted the code into R Studio.
+I edited the file for each month then copied and pasted the code into R Studio.
 For this file I will be using the April 2022 bike log as an example.
 
 #Install and library the necessary packages
@@ -69,7 +69,7 @@ I decided to check again to ensure they were removed.
  
 ##TRANSFORM PART 1##
  
-#I needed some additional information in order to complete my analysis.  The biggest missing variable was a ride_length column.  I also needed a day of the week and month columns.
+#I needed some additional information in order to complete my analysis.  The biggest missing variable was a ride_length column.  I also needed day of the week and month columns.
 When trying to calculate the ride length time I noticed the started_at and ended_at were string columns.  I then proceeded to transform them into a date time format.
   C202204 <- mutate(C202204, start_time=mdy_hm(C202204$started_at)) %>% mutate(C202204, end_time=mdy_hm(C202204$ended_at))
 
