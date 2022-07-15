@@ -97,8 +97,8 @@ This technique was found at (https://stackoverflow.com/questions/50724137/find-m
   
 #I decided to check the range of the ride length column to check if the range made any sense.
   summary(C202204$ride_length)
-#I found there were some negative values and some rides that were longer than 24hrs or 1440mins.  Since the negative values were obivously errors and ride longer than 1440mins were likely for service, I filtered out the rides that fell on either side of the range.
-  C202204 <- filter(C202204, ride_length > 0)
+#I found there were some negative values and some rides that were longer than 24hrs or 1440mins.  Since the negative values were obivously errors and rides longer than 1440mins were likely for service, I filtered out the rides that fell on either side of the range.
+  C202204 <- filter(C202204, ride_length >= 0)
   C202204 <- filter(C202204, ride_length <= 1440)
 
 ##TRANSFORM PART 2##
