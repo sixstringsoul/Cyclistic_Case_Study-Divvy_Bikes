@@ -1,0 +1,134 @@
+#Analytical Procedure
+
+#Now that the data has been cleaned and transformed, the next step is to perform the analysis.  
+I chose to use the start times when looking at the rides by units of time as this was when the rider made the initial decision to use the service.  
+The end goal here is to find the difference in the riding trends of member and casual riders.  
+I will then condense the findings into a summary file to produce visualizations with Tableau.  
+
+#Finding the total number of rides for both member and casual riders.
+	total <- table(all$member_casual)
+  
+#Members have more total rides.
+
+#Export summary
+	write.csv(total, ‘total.csv’)
+
+#Finding total minutes by rider type
+	total_min <- aggregate(all$ride_length, list(all$member_casual), FUN=sum)
+  
+#Casual riders rode more minutes than members.
+
+#Export summary
+	write.csv(total_min, ‘total_min.csv’)
+
+#Checking for any bike type preferences between the two rider types.
+#Summarizing by bike type
+	table(all$member_casual, all$rideable_type)
+  
+#Both rider types show a nearly identical preference for traditional bikes.  
+Since this summary didn’t produce any meaningful insights for the business task, I omitted these results from my presentation.
+
+#Finding start time totals for both rider types.  
+#Creating time column.
+	time <- separate(X202104, start_time, into('date', 'time'), sep=‘ ’)
+#Summarize by rider type
+	time <- table(time$member_casual, time$time)
+ 
+#Both riders showed a preference to start rides at 1700.
+  
+#Export summary
+	write.csv(time, ‘time.csv’)
+
+#Finding the total rides by day of the week by rider type
+	daytotal <- table(all$member casual, all$startday)
+
+#These results are too varied to describe here.  
+I figured they would be best explained by a stacked bar chart visualization.  
+I used a different file than the summary created here to make the visualization. 
+I will describe that process later in this document.  
+For now I will export the summary for record keeping purposes.
+
+#Export summary
+	write.csv(daytotal, ‘daytotal.csv’)
+
+#Finding the average day of week average by rider type
+	dayavg <- aggregate(all$member_casual ~ all$ride_length + all$start_day, FUN = mean)
+  
+#The results are too varied to describe here.  
+A stacked bar chart would best explain them.  
+For these results I created a summary file which as also used for the data visualization.
+
+#Export summary
+	write.csv(dayavg, ‘dayavg.csv’)
+
+#I wanted to find out if the variances in the totals and average ride lengths by month had a correlation to the temperature as this explanation would make the most sense.  
+To compare the patterns I created a line chart to show how the temperature changed by month throughout the year.
+#To create this chart I pulled the high low and average temperature data of the Chicago area by month from weather.gov.  
+I manually entered this data into an Excel spreadsheet then uploaded it into Tableau.
+
+#Finding the total rides by month by rider type
+	totalmonth <- table(all$member_casual, all$start_month)
+  
+#The results are too varied to describe here.  
+As with the total rides by day another file was create the visualization.  
+I exported the summary here for record keeping purposes.
+
+#Export summary
+	write.csv(totalmonth, ‘totalmonth.csv’)
+
+#Finding the average ride length by month by rider type.
+	monthavg <- aggregate(all$member_casual ~ all$ride_length + all$start_month, FUN = mean)
+  
+#The results are too varied to describe here.  
+For this stacked bar chart visualization, I used this summary file.
+
+#Export summary
+	write.csv(monthavg, ‘monthavg.csv’)
+
+#Finding the top 10 start and end stations for casual riders.
+#Filter for casual riders
+	casual <- filter(all, member_casual = ‘casual’)
+#Top start station
+	casual_start <- table(casual$start_station_name)
+#Top end station
+	casual_end <- table(casual$end_station_name)
+#Export summaries
+	write.csv(casual_start, ‘casual_start.csv’)
+	write.csv(casual_end, ‘casual_end.csv’)
+  
+#I then sorted and deleted all the entries below the top 10 in Excel.  
+To produce the visualizations I created a chart with Powerpoint.
+
+#Finding the top 10 start and end stations for member riders.
+#Filter for member riders
+	member <- filter(all, member_casual = ‘member’)
+#Top start station
+	member_start <- table(member$start_station_name)
+#Top end station
+	member_end <- table(member$end_station_name)
+#Export summaries
+	write.csv(casual_start, ‘member_start.csv’)
+	write.csv(casual_end, ‘member_end.csv’)
+  
+#I then sorted and deleted all the entries below the top 10 in Excel.  
+To produce the visualizations I created a chart with Powerpoint.
+
+#Creating the total by day and month stacked bar chart file.
+#The summary files I created for the totals by day and month were not being read correctly by Tableau.  
+To work around this issue I created a smaller ‘all’ file to save processing power on Tableau’s public server.  
+I used Tableau’s filters and table calculations to produce the visualizations.
+
+#Assigning the variable to keep original file in tact.
+	stack <- all
+#Deleting the unneeded station info and bike type columns
+	stack$start_station_name <- NULL
+	stack$end_station_name <- NULL
+	stack$start_lat <- NULL
+	stack$end_lat <- NULL
+	stack$rideable_type <- NULL
+	stack$start_station_id <- NULL
+	stack$end_station_id <- NULL
+	stack$start_lng <- NULL
+	stack$end_lng <- NULL
+#Exporting the file
+	write.csv(stack, ‘stack.csv’)
